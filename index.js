@@ -4,7 +4,7 @@ const fs = require('fs');
 const errorChecker = require("./errorChecker.js")
 const notifier = require("./notifier.js")
 
-const FIVE_MIN_IN_MS = 0.1 * 60000
+const FIVE_MIN_IN_MS = 5 * 60000
 const CONFIG = process.env.CONFIG || 'validators.json'
 
 function getValidatorStats() {
