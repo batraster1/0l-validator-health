@@ -1,0 +1,11 @@
+[
+  {
+    "ipAddress": "52.36.30.8",
+    "discordIds": ["916109984847253525"],
+    "notifyFor": [
+      "ALL"
+    ],
+    "webhookUrls": ["TEST"],
+    "description": "GB"
+  }
+]

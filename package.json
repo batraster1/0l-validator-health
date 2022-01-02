@@ -1,0 +1,21 @@
+{
+  "name": "0l-validator-notification",
+  "version": "1.0.0",
+  "description": "Send notifications about validator node health",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "0l",
+    "validator"
+  ],
+  "author": "batraster",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "discord-webhook-node": "^1.1.8",
+    "eventsource": "^1.1.0",
+    "javascript-time-ago": "^2.3.10"
+  }
+}
