@@ -32,8 +32,7 @@ async function checkForErrors(validator, response) {
                 let mapVal = addressVoteMap.get(validatorAddress)
                 if(addressVoteMap.has(validatorAddress) && 
                         mapVal.votes === voteCount){
-                    errors.push(`votes in epoch is ${voteCount}, last change ${timeAgo.format(mapVal.timestamp)}`)
-                }
+                    errors.push(`votes in epoch: ${voteCount}, unchanged in > 5 min`)                }
                 else {
                     addressVoteMap.set(validatorAddress, {votes: voteCount, timestamp: Date.now()})
                 }
