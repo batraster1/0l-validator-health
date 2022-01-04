@@ -1,8 +1,8 @@
 const { Webhook, MessageBuilder } = require('discord-webhook-node');
 
 const WEBHOOK_NAME = "ValidatorHealth"
-const DEFAULT_WEBHOOK = "https://discord.com/api/webhooks/927288583151296532/ZjcekL1NaAb_meAmP0jkxGDmASg8ZGYHMKgufaP0mLtkGdtqYUAL7Z6pvjCdxFWwTQi3"
-const TEST_WEBHOOK = "https://discord.com/api/webhooks/927288013657083925/5uZnbqQNqegkOBdKJdv1VWO9prieJaGR7FPpB2r4MVLsxTEjsTAFM0HA8jdDo-8yud73"
+const DEFAULT_WEBHOOK = "https://discord.com/api/webhooks/927400770557575279/F2alVR5ZqVTCir-31SCRVcPbEOKuHlKulqRyvem-MuZwCO9xxM8IhvazmO8pXISS6Mzs"
+const TEST_WEBHOOK = "https://discord.com/api/webhooks/927400691201372170/bY_U-pUMESzl0MHJ3fXisVU1gbYYrvZI1cwiAGL9yMuObKzsoevGYbv8gAZ5D8KoeSsm"
 
 function sendToWebhooks(validator, fields, color){
     if(validator.webhookUrls && validator.webhookUrls.length >0){
