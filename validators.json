@@ -7,5 +7,12 @@
     ],
     "webhookUrls": ["TEST"],
     "description": "GB"
+  },
+  {
+    "ipAddress": "3.222.255.198",
+    "discordIds": ["706378015449546762"],
+    "notifyFor": ["ALL"],
+    "webhookUrls": ["DEFAULT"],
+    "description": "01233"
   }
 ]
