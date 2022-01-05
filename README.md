@@ -16,7 +16,7 @@ A Node project that tracks the health of 0L validator nodes and publishes notifi
 ![11d9f8d52f78.png\]](https://user-images.githubusercontent.com/36015640/148246687-a2193d44-da74-47de-aa74-11d9f8d52f78.png)
 
 ## Adding monitoring for your validator node
-To get monitoring for free, submit a PR to add your details to the [validators.json](./vaidators.json)
+To get monitoring for free, submit a PR to add your details to the [validators.json](./validators.json)
 
     [
 	    {
