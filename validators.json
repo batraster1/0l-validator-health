@@ -14,5 +14,12 @@
     "notifyFor": ["ALL"],
     "webhookUrls": ["DEFAULT"],
     "description": "01233"
+  },
+    {
+    "ipAddress": "3.18.120.115",
+    "discordIds": ["706378312708128830"],
+    "notifyFor": ["ALL"],
+    "webhookUrls": ["DEFAULT"],
+    "description": "VeeEmm"
   }
 ]
