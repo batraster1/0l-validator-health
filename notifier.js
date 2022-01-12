@@ -6,22 +6,22 @@ const RED = "#FF0000"
 const ORANGE = "#FFA500"
 
 function sendNotification(validator, newErrors){
-    let validatorIpAddress = validator.ipAddress
-    const hasErrors = validatorErrorMap.has(validatorIpAddress);
+    let errorKey = validator.ipAddress + validator.description
+    const hasErrors = validatorErrorMap.has(errorKey);
     if(newErrors.length == 0 && hasErrors){  
         discordNotifier.sendToWebhooks(validator, [], GREEN)
-        validatorErrorMap.delete(validatorIpAddress)
+        validatorErrorMap.delete(errorKey)
     }
     else if(newErrors.length > 0 && !hasErrors ){   
         discordNotifier.sendToWebhooks(validator, [{key : 'Errors:' , value: newErrors.join("\n")}], RED)
-        validatorErrorMap.set(validator.ipAddress, newErrors)
+        validatorErrorMap.set(errorKey, newErrors)
     }
     else if(newErrors.length > 0 && hasErrors){
-        let errorsCleared = validatorErrorMap.get(validatorIpAddress).filter(error => !newErrors.includes(error))
+        let errorsCleared = validatorErrorMap.get(errorKey).filter(error => !newErrors.includes(error))
         if(errorsCleared.length >0){
             discordNotifier.sendToWebhooks(validator, [{key : 'Errors:' , value: newErrors.join("\n")}, {key : 'Errors cleared:' , value: errorsCleared.join("\n")}], ORANGE)
         }
-        validatorErrorMap.set(validator.ipAddress, newErrors)
+        validatorErrorMap.set(errorKey, newErrors)
     }    
 }
 
