@@ -33,6 +33,6 @@ function getValidatorStats() {
 }
 
 console.log('Starting 0l validator health ...')
-getValidatorStats()
+//getValidatorStats()
 setInterval(getValidatorStats, FIVE_MIN_IN_MS)
 
