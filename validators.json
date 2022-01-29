@@ -28,5 +28,12 @@
     "notifyFor": ["ALL"],
     "webhookUrls": ["DEFAULT"],
     "description": "good"
+  },
+  {
+    "ipAddress": "88.99.127.178",
+    "discordIds": ["528010426362101771"],
+    "notifyFor": ["ALL"],
+    "webhookUrls": ["DEFAULT"],
+    "description": "hi mom"
   }
 ]
