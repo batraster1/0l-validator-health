@@ -35,5 +35,12 @@
     "notifyFor": ["ALL"],
     "webhookUrls": ["DEFAULT"],
     "description": "hi mom"
+  },
+  {
+    "ipAddress": "137.184.42.16",
+    "discordIds": ["703506297177243700"],
+    "notifyFor": ["ALL"],
+    "webhookUrls": ["DEFAULT"],
+    "description": "bethose ala bethnin"
   }
 ]
