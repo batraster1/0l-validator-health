@@ -42,5 +42,12 @@
     "notifyFor": ["ALL"],
     "webhookUrls": ["DEFAULT"],
     "description": "bethose ala bethnin"
+  },
+  {
+    "ipAddress": "79.137.36.245",
+    "discordIds": ["271290318664630273"],
+    "notifyFor": ["ALL"],
+    "webhookUrls": ["DEFAULT"],
+    "description": "my safe word is cashew"
   }
 ]
