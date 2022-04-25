@@ -49,5 +49,12 @@
     "notifyFor": ["ALL"],
     "webhookUrls": ["DEFAULT"],
     "description": "my safe word is cashew"
+  },
+  {
+    "ipAddress": "20.39.34.205",
+    "discordIds": ["338588728572379137"],
+    "notifyFor": ["ALL"],
+    "webhookUrls": ["DEFAULT"],
+    "description": "Ashiiix"
   }
 ]
