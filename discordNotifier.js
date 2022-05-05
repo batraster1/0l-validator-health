@@ -35,7 +35,7 @@ function sendToWebhooks(validator, fields, color){
                     description += `<@${discordId}> `
                 }
             }
-            embed.setDescription(description)
+            embed.setText(description)
             embed.setFooter(footer)
             const hook = new Webhook(webhookUrl)
             hook.setUsername(WEBHOOK_NAME)
