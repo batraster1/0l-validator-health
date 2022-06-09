@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const addressVoteMap = new Map();
-const FULL_NODE_IP = "34.125.96.129"
+const FULL_NODE_IP = "142.132.207.50"
 
 const proofsInEpochMap = new Map()
 const THREE_HRS_IN_MS = 10800000 

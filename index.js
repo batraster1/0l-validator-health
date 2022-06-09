@@ -9,8 +9,11 @@ const CONFIG = process.env.CONFIG || 'validators.json'
 
 function getValidatorStats() {
     let validators = JSON.parse(fs.readFileSync(CONFIG))
+
+
     for(const validator of validators){
         let uri = `http://${validator.ipAddress}:3030/vitals`
+
         try {
             const sse = new eventSource(uri)
             sse.onmessage = async (msg) => {
@@ -18,15 +21,15 @@ function getValidatorStats() {
               let response = JSON.parse(msg.data)
               let errors = await errorChecker.checkForErrors(validator, response)
               validator.address = response.account_view.address
-              notifier.sendNotification(validator, errors)              
+              notifier.sendNotification(validator, errors)
             }
             sse.onerror = (err) => {
                 sse.close()   
-                notifier.sendNotification(validator, ['OFFLINE'])
+                notifier.sendNotification(validator,['OFFLINE'])
             }
           } catch (err) {
             console.log('error')
-            notifier.sendNotification(validator, ['OFFLINE'])
+            notifier.sendNotification(validator,['OFFLINE'])
           }
     }
        
