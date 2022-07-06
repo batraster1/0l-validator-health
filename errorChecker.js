@@ -1,14 +1,11 @@
-const axios = require('axios');
-
 const addressVoteMap = new Map();
-const FULL_NODE_IP = "142.132.207.50"
 
 const proofsInEpochMap = new Map()
-const THREE_HRS_IN_MS = 10800000 
+const THREE_HRS_IN_MS = 10800000
 
-async function checkForErrors(validator, response) {
+async function checkForErrors(validator, CONFIG, response) {
     let errors = []
-    const notiFyForArray = validator.notifyFor;
+    const notiFyForArray = CONFIG.ERROR_TYPES;
     let validatorIpAddress = validator.ipAddress
     if ((notiFyForArray.includes('NOT_IN_SYNC') || notiFyForArray.includes('ALL')) && !response.items.is_synced) {
         errors.push('not in sync');
@@ -37,7 +34,7 @@ async function checkForErrors(validator, response) {
     }
 
     if(notiFyForArray.includes('PROOFS_IN_EPOCH_UNCHANGED') || notiFyForArray.includes('ALL')){
-        let proofsInEpoch = await getProofsInEpoch(response.account_view.address)
+        let proofsInEpoch = await getProofsInEpoch(response.account_view.address, CONFIG)
         let proofKey = validatorIpAddress + validator.description
         if(proofsInEpochMap.has(proofKey)){
             let oldProofs = proofsInEpochMap.get(proofKey).proofs
@@ -60,15 +57,15 @@ async function checkForErrors(validator, response) {
 
 
 
-async function getProofsInEpoch(account){
+async function getProofsInEpoch(account, CONFIG){
     try{
-    const response = await axios.post(`http://${FULL_NODE_IP}:8080`, 
+    const response = await axios.post(`http://${CONFIG.FULl_NODE_IP}:8080`,
             {"jsonrpc": "2.0", "id": 1, "method": "get_tower_state_view", "params": [account] },
             {timeout: 500})
             return response.data.result.actual_count_proofs_in_epoch
     }
     catch(error){
-        console.log(`Can't connect to ${FULL_NODE_IP}`)
+        console.log(`Can't connect to ${CONFIG.FULL_NODE_IP}`)
         return Number.MAX_VALUE
     }
 }
