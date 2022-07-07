@@ -1,21 +1,22 @@
 {
-  "name": "0l-validator-notification",
+  "name": "movey-sentry",
   "version": "1.0.0",
-  "description": "Send notifications about validator node health",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "0l",
-    "validator"
-  ],
-  "author": "batraster",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.24.0",
-    "discord-webhook-node": "^1.1.8",
-    "eventsource": "^1.1.0",
-    "javascript-time-ago": "^2.3.10"
+    "@slack/webhook": "^6.1.0",
+    "eventsource": "^2.0.2",
+    "nodemon": "^2.0.18",
+    "toml": "^3.0.0"
+  },
+  "devDependencies": {
+    "axios": "^0.27.2"
   }
 }
