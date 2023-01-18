@@ -1,26 +1,31 @@
-const {IncomingWebhook} = require("@slack/webhook");
-const  eventSource = require('eventsource');
-const errorChecker = require("./errorChecker.js")
+const { IncomingWebhook } = require("@slack/webhook");
+const eventSource = require('eventsource');
 const toml = require('toml');
+const fs = require('fs');
+const path = require('path');
+const sgMail = require('@sendgrid/mail')
+
+const errorChecker = require("./errorChecker.js")
+
 const CONFIG_ENV = process.env
 const CONFIG_TOML = 'credential.toml'
-const fs = require('fs');
 const validatorErrorMap = new Map()
 
 let parsed = [];
 let CONFIG = [];
-if(!fs.existsSync(CONFIG_TOML)) {
+if (!fs.existsSync(CONFIG_TOML)) {
     console.log("File not found, skip config file");
     CONFIG["VALIDATORS"] = CONFIG_ENV.VALIDATORS_DATA.split(" ");
     CONFIG["ERROR_TYPES"] = CONFIG_ENV.ERROR_TYPES_DATA.split(" ");
-    CONFIG = {...CONFIG, ...CONFIG_ENV}
+    CONFIG = { ...CONFIG, ...CONFIG_ENV }
 } else {
     parsed = toml.parse(fs.readFileSync(CONFIG_TOML, 'utf8'));
-    CONFIG = { ...parsed}
+    CONFIG = { ...parsed }
 }
+sgMail.setApiKey(CONFIG.SENDGRID_API_KEY)
 
 function getValidatorStats() {
-    for(let validator of CONFIG.VALIDATORS){
+    for (let validator of CONFIG.VALIDATORS) {
         let uri = `http://${validator}:3030/vitals`
 
         try {
@@ -31,39 +36,40 @@ function getValidatorStats() {
                 let errors = await errorChecker.checkForErrors(validator, CONFIG, response)
                 //validator = response.account_view.address
                 calNotification(validator, errors)
+                if (errors.length > 0) {
+                    sendEmail(errors)
+                } else {
+                    console.log("Validator is functional")
+                }
             }
             sse.onerror = (err) => {
                 sse.close()
-                calNotification(validator,['OFFLINE'])
+                calNotification(validator, ['OFFLINE'])
+                console.log(`Error from validator: ${err}`)
             }
         } catch (err) {
-            console.log('error')
-            calNotification(validator,['OFFLINE'])
+            calNotification(validator, ['OFFLINE'])
+            console.log(`Error from eventSource: ${err}`)
         }
     }
-
 }
 
-console.log('Starting 0l validator health ...')
-//getValidatorStats()
-setInterval(getValidatorStats, CONFIG.INTERVAL);
-
-function calNotification(validator, newErrors){
+function calNotification(validator, newErrors) {
     let errorKey = validator
     //console.log(newErrors)
     const hasErrors = validatorErrorMap.has(errorKey);
-    if( newErrors.length === 0 && hasErrors){
+    if (newErrors.length === 0 && hasErrors) {
         sendNotification(validator, [])
         validatorErrorMap.delete(errorKey)
     }
-    else if(newErrors.length > 0 && !hasErrors ){
-        sendNotification(validator, {value: newErrors.join("\n")})
+    else if (newErrors.length > 0 && !hasErrors) {
+        sendNotification(validator, { value: newErrors.join("\n") })
         validatorErrorMap.set(errorKey, newErrors)
     }
-    else if(newErrors.length > 0 && hasErrors){
+    else if (newErrors.length > 0 && hasErrors) {
         let errorsCleared = validatorErrorMap.get(errorKey).filter(error => !newErrors.includes(error))
-        if(errorsCleared.length >0){
-            sendNotification(validator, {value: newErrors.join("\n")})
+        if (errorsCleared.length > 0) {
+            sendNotification(validator, { value: newErrors.join("\n") })
         }
         validatorErrorMap.set(errorKey, newErrors)
     }
@@ -111,3 +117,29 @@ function sendNotification(ip, err) {
     })();
 }
 
+function sendEmail(err) {
+    let email_content = fs.readFileSync(path.join(__dirname, "email/validator_error.txt"))
+    let html_email_content = fs.readFileSync(path.join(__dirname, "email/validator_error.html"))
+
+    const message = {
+        to: CONFIG.SENDGRID_EMAIL_TO,
+        cc: CONFIG.SENDGRID_EMAIL_CC,
+        from: CONFIG.SENDGRID_EMAIL_FROM,
+        subject: '[0L Validator Health] New error message',
+        text: eval("`" + email_content + "`"),
+        html: eval("`" + html_email_content + "`"),
+    }
+
+    console.log("Sending email")
+    sgMail
+        .send(message)
+        .then((response) => {
+            console.log(`Email sent with response code ${response[0].statusCode}`)
+        })
+        .catch((error) => {
+            console.error(error)
+        })
+}
+
+console.log('Starting 0l validator health ...')
+setInterval(getValidatorStats, CONFIG.INTERVAL);
